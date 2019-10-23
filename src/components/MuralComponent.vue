@@ -3,21 +3,28 @@
         <div class="user">
             <Icon size="48"></Icon>
             <div class="user-info">
-            <div class="user-info__name">Nome do Usuário</div>
-            <div class="user-info__date">Publicado em Dia de Mês de Ano às Horas</div>
+                <div class="user-info__name">{{nomeMural}}</div>
+                <div class="user-info__date"><i>{{dataMural}}</i></div>
             </div>
         </div>
-        <div class="content">Content</div>
+        <div class="content">{{msgMural}}</div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import ItemMural from '../models/itemMural'
 import Icon from '@/components/Icon.vue';
 export default Vue.extend({
     components:{
             Icon,
+        },
+    props: ["nomeMural", "dataMural", "msgMural"],
+    data() {
+        return{
+            msg: 'Olá mundo'
         }
+    }
 });
 </script> 
 
