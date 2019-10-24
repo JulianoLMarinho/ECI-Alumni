@@ -6,7 +6,11 @@ import Groups from  '../views/Groups.vue'
 import Profile from  '../views/Profile.vue'
 import Students from  '../views/Students.vue'
 import Mural from  '../views/Mural.vue'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(Router);
+Vue.use(BootstrapVue);
 
 export default new Router({
   mode: 'history',
