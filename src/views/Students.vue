@@ -1,6 +1,7 @@
 <template>
+<div>
+  <Navbar />
   <b-container fluid class="m0">
-    <Navbar />
     <b-row>
       <b-col md="8" offset-md="2">
         <b-row>
@@ -26,6 +27,7 @@
       </b-col>
     </b-row>
   </b-container>
+</div>
 </template>
 
 <script>
