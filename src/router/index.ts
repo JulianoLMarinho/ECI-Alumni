@@ -7,6 +7,7 @@ import Profile from "../views/Profile.vue";
 import Students from "../views/Students.vue";
 import Mural from "../views/Mural.vue";
 import StudentDetail from "../views/StudentDetail.vue";
+import Login from "../views/Login.vue";
 import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -19,8 +20,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "login",
+      component: Login
     },
     {
       path: "/sobre",
@@ -51,6 +52,11 @@ export default new Router({
       path: "/alunoDetalhe",
       name: "studentDetail",
       component: StudentDetail
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     }
   ]
 });
