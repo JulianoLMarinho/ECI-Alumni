@@ -31,7 +31,7 @@
       <b-col md="4" offset="4">
         <p>
           Ainda não é cadastrado? <br />
-          <a href="#">Junte-se à comunidade ECI Alumni</a>
+          <a href="cadastro">Junte-se à comunidade ECI Alumni</a>
         </p>
       </b-col>
     </b-row>

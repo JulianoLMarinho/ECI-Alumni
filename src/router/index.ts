@@ -8,6 +8,7 @@ import Students from "../views/Students.vue";
 import Mural from "../views/Mural.vue";
 import StudentDetail from "../views/StudentDetail.vue";
 import Login from "../views/Login.vue";
+import Register from "../views/Register.vue";
 import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -57,6 +58,11 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/cadastro",
+      name: "cadastro",
+      component: Register
     }
   ]
 });
