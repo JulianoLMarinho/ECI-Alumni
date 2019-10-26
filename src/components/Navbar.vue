@@ -7,9 +7,15 @@
       <router-link :to="{ name: 'profile' }" class="button">Perfil</router-link>
       <router-link :to="{ name: 'students' }" class="button">Alunos</router-link>
       <router-link :to="{ name: 'about' }" class="button">Sobre</router-link>
-      <Icon size="72"></Icon>
+      <b-dropdown size="sm"  dropleft  variant="link" toggle-class="text-decoration-none" no-caret>
+        <template v-slot:button-content>
+          <Icon size="72"></Icon>
+        </template>
+        <b-dropdown-item href="login">Sair</b-dropdown-item>
+      </b-dropdown>
     </div>
   </div>
+
 </template>
 
 <script lang="ts">
