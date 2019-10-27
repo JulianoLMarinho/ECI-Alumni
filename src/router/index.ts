@@ -52,7 +52,8 @@ export default new Router({
     {
       path: "/alunoDetalhe",
       name: "studentDetail",
-      component: StudentDetail
+      component: StudentDetail,
+      props: true,
     },
     {
       path: "/login",

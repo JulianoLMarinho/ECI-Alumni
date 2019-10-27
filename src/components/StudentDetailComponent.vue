@@ -2,11 +2,11 @@
   <b-container fluid class="m0">
     <b-row>
       <b-col offset="3" md="3">
-        <Icon size="150"></Icon>
+        <Icon :size="150"></Icon>
       </b-col>
       <b-col md="3" class="dadoAluno">
-        <h2>Nome do Aluno</h2>
-        <h3>Formado em 2019</h3>
+        <h2>{{studentName}}</h2>
+        <h3>Formado em {{studentYear}}</h3>
         <h4>emaildoaluno@poli.ufrj.br</h4>
       </b-col>
     </b-row>
@@ -55,10 +55,11 @@ import Navbar from "@/components/Navbar.vue";
 import Icon from "@/components/Icon.vue";
 
 export default Vue.extend({
-  name: "studentDetail",
+  name: "studentDetailComponent",
   components: {
     Icon,
-  }
+  },
+  props:["studentName","studentYear"]
 });
 </script>
 <style scoped lang="scss">

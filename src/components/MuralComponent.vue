@@ -1,7 +1,7 @@
 <template>
     <div class="mural">
         <div class="user">
-            <Icon size="48"></Icon>
+            <Icon :size="48"></Icon>
             <div class="user-info">
                 <div class="user-info__name">{{nomeMural}}</div>
                 <div class="user-info__date"><i>{{dataMural}}</i></div>
@@ -42,7 +42,6 @@ export default Vue.extend({
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
-
     .user-info{
         display: flex;
         flex-direction: column;

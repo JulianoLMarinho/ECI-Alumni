@@ -12,17 +12,10 @@
           ></b-form-input>
         </b-row>
         <b-row>
-          <h3>Resultados</h3>
+          <h3 style="margin: 5px 0 15px">Resultados</h3>
         </b-row>
         <b-row>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
-          <StudentComponent></StudentComponent>
+          <StudentComponent v-for="student in students" :key="student.id" :studentName="student.name" :studentYear="student.year"/>
         </b-row>
       </b-col>
     </b-row>
@@ -36,12 +29,22 @@ import Vue from "vue";
 import Navbar from "@/components/Navbar.vue";
 import StudentComponent from "@/components/StudentComponent.vue";
 export default Vue.extend({
-  name: "home",
+  name: "student",
   components: {
     Navbar,
     StudentComponent
   },
-
+  data: function () {
+    return {
+      students:[
+        {name:'Juliano', id:1, year:2019},
+        {name:'Anna', id:2, year:2018},
+        {name:'Jonathan', id:3, year:2017 },
+        {name:'Gabrielle', id:4, year:2016 },
+        {name:'Marinho', id:5, year:2015}
+      ]
+    }
+  },
 });
 </script>
 <style scoped lang="scss">

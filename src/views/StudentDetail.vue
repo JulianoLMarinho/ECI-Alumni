@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Navbar />
-    <StudentDetail />
+    <StudentDetail :studentName="studentname" :studentYear="studentyear"/>
   </div>
 </template>
 
@@ -11,10 +11,11 @@ import Vue from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import StudentDetail from '@/components/StudentDetailComponent.vue';
 export default  Vue.extend({
-  name: 'home',
+  name: 'studentDetail',
   components: {
     Navbar,
     StudentDetail,
-  }
+  },
+  props:["studentname","studentyear",]
 });
 </script>

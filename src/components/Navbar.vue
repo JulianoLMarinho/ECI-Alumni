@@ -9,7 +9,7 @@
       <router-link :to="{ name: 'about' }" class="button">Sobre</router-link>
       <b-dropdown size="sm"  dropleft  variant="link" toggle-class="text-decoration-none" no-caret>
         <template v-slot:button-content>
-          <Icon size="72"></Icon>
+          <Icon :size="72"></Icon>
         </template>
         <b-dropdown-item href="login">Sair</b-dropdown-item>
       </b-dropdown>
@@ -30,7 +30,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .navbar {
-  border: solid 1px #9b9491;
+  border-bottom: solid 1px #9b9491;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -8,7 +8,7 @@
         </b-col>
       </b-row>
     <b-row>
-    <StudentDetail />
+    <StudentDetail :studentName="student.name" :studentYear="student.year"/>
     </b-row>
     </b-container>
   </div>
@@ -21,18 +21,22 @@ import StudentDetail from '@/components/StudentDetailComponent.vue';
 import Navbar from '@/components/Navbar.vue';
 import Button from '@/components/Button.vue';
 export default  Vue.extend({
-  name: 'home',
+  name: 'profile',
   components: {
     Navbar,
     Button,
     StudentDetail,
-  }
+  },
+  data: function(){
+    return{
+      student:{name:"Me", id:1, year:"2020"},
+      
+    }
+  },
 });
 </script>
 <style  scoped lang="scss">
-.home{
-  
-}
+
 .button{
         margin-bottom: 25px;
         width: 55px;

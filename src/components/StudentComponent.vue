@@ -1,8 +1,8 @@
 <template>
   <b-col md="3" class="student" v-on:click="clickStudent">
-    <Icon size="90"></Icon>
-    <p style="margin-bottom: 0">{{ getStudents().Nome }}</p>
-    <p>Formou em 2019</p>
+    <Icon :size="90"></Icon>
+    <p style="margin-bottom: 0">{{studentName}}</p>
+    <p>Formou em {{studentYear}}</p>
   </b-col>
 </template>
 
@@ -14,6 +14,7 @@ export default Vue.extend({
   components: {
     Icon
   },
+  props: ["studentName", "studentYear",],
   methods: {
     getStudents: function() {
       let s = new Student({
@@ -27,7 +28,7 @@ export default Vue.extend({
     },
     clickStudent: function() {
       //alert("foi");
-      this.$router.push({path: "alunoDetalhe", params: {t: this.getStudents().Nome}});
+      this.$router.push({name: "studentDetail", params: {studentname: this.studentName, studentyear: this.studentYear}});
     }
   }
 });
