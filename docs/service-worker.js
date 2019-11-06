@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ECI-Alumni/precache-manifest.5df78edc151f3d28a95e2fdc1ef5d678.js"
+  "/ECI-Alumni/precache-manifest.6c0f133452de8afca8b8c379bd2fab34.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "eci-alumni"});
