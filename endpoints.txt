@@ -1,0 +1,116 @@
+Endpoint:
+GET:	localhost/ecialumniapi/getPosts?pagina=1&items=10
+
+return =[
+			{
+				idUsuario: 1, 
+				name:'Juliano', 
+				id:1, 
+				msg:"Olha isso!" , 
+				data:"2 de setembro de 2019"
+			},
+			{
+				idUsuario: 2, 
+				name:'Anna', 
+				id:2,
+				msg:"Novo emprego", 
+				data:"3 de outubro de 2019"
+			},
+			{
+				idUsuario: 3, 
+				name:'Jonathan', 
+				id:3, 
+				msg:"Nova oportunidade" , 
+				data:"4 de novembro de 2019"
+			},
+			{
+				idUsuario: 4, 
+				name:'Gabrielle', 
+				id:4, 
+				msg:"É isso ai! :D " , 
+				data:"5 de dexembro de 2019"
+			}
+		]
+		
+Endpoint:
+GET:	localhost/ecialumniapi/deletePost/{idPost}
+return = 200
+
+Endpoint:
+POST:	localhost/ecialumniapi/novoPost
+
+body = {
+			idUsuario: 1,
+			dataPublicacao: 2019-10-31 20:50:00 (datetime),
+			textoPublicacao: "Texto da publicação"
+		}
+		
+return = {
+			idUsuario: 1, 
+			name:'Juliano Marinho', 
+			id:4, 
+			msg:"Texto da publicação" , 
+			data: 2019-10-31 20:50:00
+		}
+		
+========================================================================================================
+
+Endpoint:
+POST:	localhost/ecialumniapi/newUser
+body = {
+			email: "j.delimamarinho@poli.ufrj.br",
+			password: "password",
+			name: "Juliano Marinho",
+			graduateYear: 2020
+		}
+return = 200
+
+Endpoint: 
+POST:	localhost/ecialumniapi/updateUser/{id}
+body = {
+			graduateDate: datetime,
+			profissionalResume: "resumo da vida profissional",
+			profilePicture: "hfusfhdsui" (base64)
+		}
+return = 200
+
+Endpoint: 
+GET:	localhost/ecialumniapi/getUsers
+return = [
+			{
+				name:'Juliano', 
+				id:1, 
+				year:2019
+			},
+			{
+				name:'Anna', 
+				id:2, 
+				year:2018
+			},
+			{
+				name:'Jonathan', 
+				id:3, 
+				year:2017 
+			},
+			{
+				name:'Gabrielle', 
+				id:4, 
+				year:2016 
+			},
+			{
+				name:'Marinho', 
+				id:5, 
+				year:2015
+			}
+		 ]
+		 
+Endpoint:
+GET:	localhost/ecialumniapi/getUser/{idUsuario}
+return = {
+			idUsuario: 1,
+			name: "Juliano Marinho",
+			email: "julianomarinho@poli.ufrj.br",
+			profilePicture: "hjkhklh" (base64),
+			profissionalResume: "Texto de resumo",
+			graduateDate: datetime
+   		 }
