@@ -11,7 +11,7 @@
       </b-row>
       <b-row>
         <b-col md="8" offset="2">
-      <Mural v-for="item in items" :key="item.id" :nomeMural="item.name" :msgMural="item.msg" :dataMural="item.data" class="page-mural__user-content"/>
+      <Mural v-for="item in allMurals.nodes" :key="item.idPublicacao" :nomeMural="item.usuarioByIdUsuario.nomeUsuario" :msgMural="item.textoPublicacao" :dataMural="item.dataPublicacao" class="page-mural__user-content"/>
      </b-col>
       </b-row>
      <b-modal id="modal-1" centered title="Nova Publicação">
@@ -26,7 +26,7 @@
           <b-button size="sm" variant="danger" @click="cancel()">
             Cancelar
           </b-button>
-          <b-button size="sm" variant="success" @click="ok()">
+          <b-button size="sm" variant="success" @click="novoPost('Teste com o botão')">
             Enviar
           </b-button>
         </template>
@@ -43,6 +43,8 @@ import Navbar from '@/components/Navbar.vue';
 import Button from '@/components/Button.vue';
 import Mural from '@/components/MuralComponent.vue';
 import ItemMural from '../models/itemMural';
+import gql from 'graphql-tag'
+
 export default  Vue.extend({
   name: 'mural',
   components: {
@@ -50,17 +52,56 @@ export default  Vue.extend({
     Mural,
     Button,
   },
+    apollo: {
+        allMurals: gql`
+        query {
+            allMurals{
+                nodes {
+                      idPublicacao
+                      dataPublicacao
+                      textoPublicacao
+                      usuarioByIdUsuario {
+                        idUsuario
+                        nomeUsuario
+                        emailUsuario
+                      }
+                    }
+                }
+        }
+      `
+    },
+
   data: function () {
     return {
-      items:[
-        {name:'Juliano', id:1, msg:"Olha isso!" , data:"2 de setembro de 2019"},
-        {name:'Anna', id:2,msg:"Novo emprego", data:"3 de outubro de 2019"},
-        {name:'Jonathan', id:3, msg:"Nova oportunidade" , data:"4 de novembro de 2019"},
-        {name:'Gabrielle', id:4, msg:"É isso ai! :D " , data:"5 de dexembro de 2019"},
-      ]
+        allMurals: []
     }
   },
+
   methods: {
+      novoPost(textoPublicacao: string){
+          this.$apollo.mutate({
+              mutation: gql`
+              mutation {
+                      createMural(input: {mural: {textoPublicacao: "TESTE", idUsuario: 2}}) {
+                        mural {
+                          idPublicacao
+                          textoPublicacao
+                          dataPublicacao
+                          usuarioByIdUsuario {
+                            nomeUsuario
+                            idUsuario
+                            emailUsuario
+                          }
+                        }
+                      }
+                    }
+              `,
+              variables: {
+                  textoPublicacao: textoPublicacao,
+                  idUsuario: 1
+              }
+          })
+      }
   }
 });
 
