@@ -20,13 +20,14 @@
                 id="textarea-rows"
                 placeholder="Digite a sua publicação"
                 rows="8"
+                         v-model="input.textoPublicao"
         ></b-form-textarea>
         <template v-slot:modal-footer="{ Cancelar, Enviar }">
           <!-- Emulate built in modal footer ok and cancel button actions -->
           <b-button size="sm" variant="danger" @click="cancel()">
             Cancelar
           </b-button>
-          <b-button size="sm" variant="success" @click="novoPost('Teste com o botão')">
+          <b-button size="sm" variant="success" @click="novoPost(input.textoPublicao)">
             Enviar
           </b-button>
         </template>
@@ -73,8 +74,12 @@ export default  Vue.extend({
 
   data: function () {
     return {
-        allMurals: []
-    }
+        allMurals: [],
+        input: {
+            textoPublicao: ""
+        }
+      }
+
   },
 
   methods: {
