@@ -59,7 +59,7 @@ export default  Vue.extend({
     apollo: {
         allMurals: gql`
         query {
-            allMurals(orderBy:[DATA_PUBLICACAO_DESC]){
+            allMurals(orderBy:ID_PUBLICACAO_DESC){
                 nodes {
                       idPublicacao
                       dataPublicacao
@@ -116,6 +116,7 @@ export default  Vue.extend({
           }).then(data => {
               let mural = data.data.createMural.mural
               loader.hide();
+              document.location.reload(true);
           }).catch(erro => {
               loader.hide();
           })
