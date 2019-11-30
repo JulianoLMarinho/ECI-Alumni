@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view />
+    <div id="nav">
+      <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace></router-link>
+    </div>
+    <router-view @authenticated="setAuthenticated" />
   </div>
 </template>
 
@@ -10,12 +13,32 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-@Component({
-  components: {
-    
+export default Vue.extend({
+  name: "App",
+  data() {
+    return {
+      authenticated: false
+    };
   },
+  mounted() {
+    // eslint-disable-next-line no-constant-condition
+
+    if(!this.authenticated && localStorage.getItem("user") == null){
+      this.$router.replace({name: "login"})
+    } else {
+      this.$router.replace({name: "mural"})
+      this.authenticated = true;
+    }
+  },
+  methods: {
+    setAuthenticated(status: boolean) {
+      this.authenticated = status;
+    },
+    logout() {
+      this.authenticated = false;
+    }
+  }
 })
-export default class App extends Vue {}
 </script>
 
 <style lang="scss">

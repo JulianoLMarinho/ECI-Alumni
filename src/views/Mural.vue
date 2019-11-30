@@ -14,7 +14,7 @@
       <Mural v-for="item in allMurals.nodes" :key="item.idPublicacao" :nomeMural="item.usuarioByIdUsuario.nomeUsuario" :msgMural="item.textoPublicacao" :dataMural="item.dataPublicacao" class="page-mural__user-content"/>
      </b-col>
       </b-row>
-     <b-modal id="modal-1" centered title="Nova Publicação">
+     <b-modal ref="modal-1" id="modal-1" centered title="Nova Publicação">
 
         <b-form-textarea style="margin-top: 10px"
                 id="textarea-rows"
@@ -37,14 +37,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 // @ is an alias to /src
 import Vue from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Button from '@/components/Button.vue';
 import Mural from '@/components/MuralComponent.vue';
 import ItemMural from '../models/itemMural';
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
 
 export default  Vue.extend({
   name: 'mural',
@@ -56,7 +59,7 @@ export default  Vue.extend({
     apollo: {
         allMurals: gql`
         query {
-            allMurals{
+            allMurals(orderBy:[DATA_PUBLICACAO_DESC]){
                 nodes {
                       idPublicacao
                       dataPublicacao
@@ -83,11 +86,16 @@ export default  Vue.extend({
   },
 
   methods: {
-      novoPost(textoPublicacao: string){
+      novoPost(textoPublicacao){
+          this.$refs['modal-1'].hide();
+          this.input = "";
+          let loader = this.$loading.show({color: "#FF8800"});
+          let user = JSON.parse(localStorage.getItem('user')||"")
+          console.log(user.idUsuario)
           this.$apollo.mutate({
               mutation: gql`
-              mutation {
-                      createMural(input: {mural: {textoPublicacao: "TESTE", idUsuario: 2}}) {
+              mutation createMural($idUsuario: Int!, $textoPublicacao: String){
+                      createMural(input: {mural: {textoPublicacao: $textoPublicacao, idUsuario: $idUsuario}}) {
                         mural {
                           idPublicacao
                           textoPublicacao
@@ -103,8 +111,13 @@ export default  Vue.extend({
               `,
               variables: {
                   textoPublicacao: textoPublicacao,
-                  idUsuario: 1
+                  idUsuario: user.idUsuario
               }
+          }).then(data => {
+              let mural = data.data.createMural.mural
+              loader.hide();
+          }).catch(erro => {
+              loader.hide();
           })
       }
   }

@@ -11,7 +11,7 @@
         <template v-slot:button-content>
           <Icon :size="72"></Icon>
         </template>
-        <b-dropdown-item href="login">Sair</b-dropdown-item>
+        <b-dropdown-item v-on:click="logout()">Sair</b-dropdown-item>
       </b-dropdown>
     </div>
   </div>
@@ -24,6 +24,13 @@ import Icon from "@/components/Icon.vue";
 export default Vue.extend({
   components: {
     Icon
+  },
+  methods: {
+    logout() {
+      this.$emit("authenticated", false);
+      localStorage.removeItem("user");
+      this.$router.replace({name: "login"})
+    }
   }
 });
 </script>

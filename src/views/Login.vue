@@ -1,8 +1,14 @@
 <template>
+
   <b-container>
     <b-row>
       <b-col md="4" offset="4" class="title">
         ECI Alumni
+      </b-col>
+    </b-row>
+    <b-row style="font-family: sans-serif;">
+      <b-col md="4" offset="4">
+        <b-alert :show="erroAlert" variant="danger">Email e/ou senha incorretos!</b-alert>
       </b-col>
     </b-row>
     <b-row style="font-family: sans-serif;">
@@ -41,7 +47,11 @@
 <script>
 // @ is an alias to /src
 import Vue from "vue";
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
+
 
 export default Vue.extend({
   name: "login",
@@ -52,17 +62,23 @@ export default Vue.extend({
       input: {
         email: "",
         password: ""
-      }
+      },
+      erroAlert: false
     };
   },
   
   methods: {
     login() {
+
+      let loader = this.$loading.show({color: "#FF8800"});
         let teste = this.$apollo.query({
           query: gql`query allUsuarios($emailUsuario: String, $senhaUsuario: String) {
           allUsuarios(condition: {emailUsuario:$emailUsuario, senhaUsuario: $senhaUsuario}){
               nodes {
                       nomeUsuario
+                      idUsuario
+                      emailUsuario
+                      fotoPerfil
                     }
                 }}`,
           variables: {
@@ -70,8 +86,15 @@ export default Vue.extend({
             senhaUsuario: this.input.password
           }
         }).then(data => {
-          this.$emit("authenticated", true);
-          this.$router.replace({name: "mural"})
+          if(data.data.allUsuarios.nodes.length ==1){
+            this.$emit("authenticated", true);
+            localStorage.setItem("user", JSON.stringify(data.data.allUsuarios.nodes[0]));
+            this.$router.replace({name: "mural"})
+            loader.hide();
+          } else {
+            this.erroAlert = true;
+            loader.hide();
+          }
         })
 
       }
