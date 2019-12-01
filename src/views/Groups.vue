@@ -24,6 +24,7 @@
               <b-collapse :id="'accordion-'+ group.idGrupoEmail" accordion="my-accordion" role="tabpanel">
                 <b-card-body>
                   <b-card-text v-for="user in group.grupoemailusuariosByIdGrupoEmail.nodes" :key="user.idUsuario">{{user.usuarioByIdUsuario.nomeUsuario}} <br></b-card-text>
+                  <b-button v-show="usuarioNaoNoGrupo" size="sm" variant="success" @click="cadastroGrupo(group.idGrupoEmail)"> Participar</b-button>
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -44,9 +45,13 @@
           <b-button size="sm" variant="danger" @click="cancel()">
             Cancelar
           </b-button>
-          <b-button size="sm" variant="success" @click="ok()">
+          <b-button size="sm" id="botaoEnviar" variant="success" @click="ok()">
             Enviar
           </b-button>
+           <b-popover target="botaoEnviar" variant="danger" triggers="focus">
+            <template v-slot:title>Parece que não vai ser desta vez...</template>
+            Esta função não foi implementada ainda :(
+          </b-popover>
         </template>
       </b-modal>
     </b-container>
@@ -77,6 +82,7 @@ export default  Vue.extend({
                 nodes {
                   usuarioByIdUsuario {
                     nomeUsuario
+                    idUsuario
                   }
                 }
                 totalCount
@@ -90,19 +96,43 @@ export default  Vue.extend({
     return {
       allGrupoemails:[],
       selected: null,
-      options: [
-        { value: null, text: 'Selecione o grupo para enviar a mensagem...' },
-        { value: 'a', text: 'Nome do Grupo' },
-        { value: 'b', text: 'Nome do Grupo' },
-        { value: 'c', text: 'Nome do Grupo' }
-      ],
+      usuarioNaoNoGrupo: true,
     }
   },
   methods:{
     cancel() {
         this.$refs['modal-1'].hide();
-        this.textoVazio = false;
       },
+    cadastroGrupo(id){
+        let loader = this.$loading.show({color: "#FF8800"});
+        let user = JSON.parse(localStorage.getItem('user')||"")
+        this.$apollo.mutate({
+              mutation: gql`
+              mutation CreateGrupoemailUsuario($idUsuario: Int!, $idDoGrupoEmail: Int!){
+                createGrupoemailusuario(input: {grupoemailusuario: {idUsuario: $idUsuario, idGrupoEmail:  $idDoGrupoEmail}}) {
+                  grupoemailByIdGrupoEmail {
+                    idGrupoEmail
+                  }
+                  usuarioByIdUsuario {
+                    idUsuario
+                    nomeUsuario
+                    emailUsuario
+                  }
+                }
+              }
+            `,
+            variables: {
+                idDoGrupoEmail: id,
+                idUsuario: user.idUsuario,
+              }
+        }).then(data => {
+              let grupoemailusuario = data.data.createGrupoemailusuario.grupoemailusuario;
+              loader.hide();
+              document.location.reload(true);
+          }).catch(erro => {
+              loader.hide();
+          })
+    },
   },
 });
 </script>

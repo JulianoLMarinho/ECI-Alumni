@@ -93,8 +93,6 @@ export default  Vue.extend({
         this.textoVazio = false;
       },
     novoPost(textoPublicacao){
-          debugger;
-
        if(textoPublicacao.length > 0){
            this.textoVazio = false;
           let loader = this.$loading.show({color: "#FF8800"});

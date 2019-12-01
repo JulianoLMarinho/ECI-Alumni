@@ -26,7 +26,6 @@ export default Vue.extend({
     if(!this.authenticated && localStorage.getItem("user") == null){
       this.$router.replace({name: "login"})
     } else {
-      this.$router.replace({name: "mural"})
       this.authenticated = true;
     }
   },
