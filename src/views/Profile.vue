@@ -8,8 +8,29 @@
         </b-col>
       </b-row>
     <b-row>
-    <StudentDetail :studentName="usuarioByIdUsuario.nomeUsuario" :studentYear="usuarioByIdUsuario.dataConclusaoCurso.slice(0, 4)"/>
+    <StudentDetail :idUsuario="id" />
     </b-row>
+      <b-modal ref="modal-editar" id="modal-1" centered title="Editar Usuário" >
+
+        <b-alert :show="textoVazio" variant="danger">Não é possível fazer uma publicação vazia!</b-alert>
+
+
+        <b-form-textarea style="margin-top: 10px"
+                         id="textarea-rows"
+                         placeholder="Digite a sua publicação"
+                         rows="8"
+                         v-model="input.resumoProfissional"
+        ></b-form-textarea>
+        <template v-slot:modal-footer="{ Cancelar, Enviar }">
+          <!-- Emulate built in modal footer ok and cancel button actions -->
+          <b-button size="sm" variant="danger" @click="cancel()">
+            Cancelar
+          </b-button>
+          <b-button size="sm" variant="success" type="submit" @click="novoPost(input.textoPublicacao)">
+            Enviar
+          </b-button>
+        </template>
+      </b-modal>
     </b-container>
   </div>
 </template>
@@ -28,9 +49,8 @@ export default  Vue.extend({
     Button,
     StudentDetail,
   },
-  
   apollo: {
-     usuarioByIdUsuario: {
+    usuarioByIdUsuario: {
       query: gql`
         query UsuarioByIdUsuario($idDoUsuario: Int!){
           usuarioByIdUsuario(idUsuario: $idDoUsuario) {
@@ -47,11 +67,15 @@ export default  Vue.extend({
       },
     },
   },
-  data: function(){
-    return{
+  data: function () {
+    return {
+      id: JSON.parse(localStorage.getItem('user')||"").idUsuario,
       usuarioByIdUsuario: [],
+      input: {
+        resumoProfissional: ""
+      }
     }
-  },
+  }
   // beforeCreate(){
     
   //   const usuarioId = JSON.parse(localStorage.getItem('user')||"").idUsuario;

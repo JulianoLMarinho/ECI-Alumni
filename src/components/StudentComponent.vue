@@ -2,7 +2,7 @@
   <b-col md="3" class="student" v-on:click="clickStudent">
     <Icon :size="90"></Icon>
     <p style="margin-bottom: 0">{{studentName}}</p>
-    <p>Formou em {{studentYear}}</p>
+    <p>{{studentYear == 1970?"Ano não informado":"Formou em " + studentYear}}</p>
   </b-col>
 </template>
 
@@ -14,7 +14,7 @@ export default Vue.extend({
   components: {
     Icon
   },
-  props: ["studentName", "studentYear",],
+  props: ["studentName", "studentYear", "idUsuario"],
   methods: {
     getStudents: function() {
       let s = new Student({
@@ -28,7 +28,7 @@ export default Vue.extend({
     },
     clickStudent: function() {
       //alert("foi");
-      this.$router.push({name: "studentDetail", params: {studentname: this.studentName, studentyear: this.studentYear}});
+      this.$router.push({name: "studentDetail", params: {idUsuario: this.idUsuario}});
     }
   }
 });

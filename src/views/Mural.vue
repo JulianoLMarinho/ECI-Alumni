@@ -9,24 +9,29 @@
       <Button class="page-mural__button" v-b-modal.modal-1> Nova Publicação </Button>
        </b-col>
       </b-row>
+
       <b-row>
         <b-col md="8" offset="2">
       <Mural v-for="item in allMurals.nodes" :key="item.idPublicacao" :nomeMural="item.usuarioByIdUsuario.nomeUsuario" :msgMural="item.textoPublicacao" :dataMural="item.dataPublicacao" class="page-mural__user-content"/>
      </b-col>
       </b-row>
      <b-modal ref="modal-1" id="modal-1" centered title="Nova Publicação" >
+
+        <b-alert :show="textoVazio" variant="danger">Não é possível fazer uma publicação vazia!</b-alert>
+
+
         <b-form-textarea style="margin-top: 10px"
                 id="textarea-rows"
                 placeholder="Digite a sua publicação"
                 rows="8"
-                v-model="input.textoPublicao"
+                v-model="input.textoPublicacao"
         ></b-form-textarea>
         <template v-slot:modal-footer="{ Cancelar, Enviar }">
           <!-- Emulate built in modal footer ok and cancel button actions -->
          <b-button size="sm" variant="danger" @click="cancel()">
             Cancelar
           </b-button>
-          <b-button size="sm" variant="success" type="submit" @click="novoPost(input.textoPublicao)">
+          <b-button size="sm" variant="success" type="submit" @click="novoPost(input.textoPublicacao)">
             Enviar
           </b-button>
         </template>
@@ -77,20 +82,24 @@ export default  Vue.extend({
     return {
         allMurals: [],
         input: {
-            textoPublicao: ""
+            textoPublicacao: ""
         },
+        textoVazio: false
       }
   },
   methods: {
       cancel() {
         this.$refs['modal-1'].hide();
+        this.textoVazio = false;
       },
     novoPost(textoPublicacao){
-        this.input = "";
-       // if(textoPublicacao){ 
+          debugger;
+
+       if(textoPublicacao.length > 0){
+           this.textoVazio = false;
           let loader = this.$loading.show({color: "#FF8800"});
           let user = JSON.parse(localStorage.getItem('user')||"")
-          console.log(textoPublicacao);
+          console.log(textoPublicacao.length>0);
           this.$refs['modal-1'].hide();
           this.$apollo.mutate({
               mutation: gql`
@@ -120,7 +129,10 @@ export default  Vue.extend({
           }).catch(erro => {
               loader.hide();
           })
-        //}
+        } else {
+           this.textoVazio = true;
+       }
+        this.input.textoPublicacao = "";
     }
   }
 });

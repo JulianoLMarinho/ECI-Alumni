@@ -9,13 +9,15 @@
             id="input-small"
             size="sm"
             placeholder="Pesquisar Alunos"
+            v-on:input="search"
+            v-model="pesquisaNome"
           ></b-form-input>
         </b-row>
         <b-row>
           <h3 style="margin: 5px 0 15px">Resultados</h3>
         </b-row>
         <b-row>
-          <StudentComponent v-for="student in allUsuarios.nodes" :key="student.idUsuario" :studentName="student.nomeUsuario" :studentYear="student.dataConclusaoCurso.slice(0, 4)"/>
+          <StudentComponent v-for="student in searchUsuarios.nodes" :idUsuario="student.idUsuario" :key="student.idUsuario" :studentName="student.nomeUsuario" :studentYear="new Date(student.dataConclusaoCurso).getUTCFullYear()"/>
         </b-row>
       </b-col>
     </b-row>
@@ -36,22 +38,34 @@ export default Vue.extend({
     StudentComponent
   },
   apollo: {
-    allUsuarios: gql`
-      query { 
-        allUsuarios(orderBy: NOME_USUARIO_ASC ){
-          nodes{
-            nomeUsuario
-            idUsuario
-            dataConclusaoCurso
+    searchUsuarios: {
+      query: gql`
+        query searchUsuarios($nomeUsuario: String){
+          searchUsuarios(search: $nomeUsuario){
+            nodes{
+              nomeUsuario
+              idUsuario
+              dataConclusaoCurso
+            }
           }
-        }
-    }`
+        }`,
+      variables() {
+        return {nomeUsuario: this.nomeUsuario}
+      }
+    }
   },
   data: function () {
     return {
-      allUsuarios:[],
+      searchUsuarios:[],
+      nomeUsuario: "",
+      pesquisaNome: "",
     }
   },
+  methods: {
+    search(){
+        this.nomeUsuario = this.pesquisaNome;
+    }
+  }
 });
 </script>
 <style scoped lang="scss">

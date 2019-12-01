@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Navbar />
-    <StudentDetail :studentName="studentname" :studentYear="studentyear"/>
+    <StudentDetail :idUsuario="idUsuario" />
   </div>
 </template>
 
@@ -16,6 +16,6 @@ export default  Vue.extend({
     Navbar,
     StudentDetail,
   },
-  props:["studentname","studentyear",]
+  props:["idUsuario"]
 });
 </script>
