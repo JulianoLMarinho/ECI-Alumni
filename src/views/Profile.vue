@@ -4,7 +4,14 @@
     <b-container fluid class="m0">
       <b-row>
         <b-col offset="8" md="1">
-    <Button class="button"> Editar </Button>
+        <div>
+        <Button id="editarPerfil" class="button" @click="ok()" role="button" tabindex="0"
+         data-trigger="focus" > Editar </Button>
+        <b-popover target="editarPerfil" variant="danger" triggers="focus">
+          <template v-slot:title>Parece que não vai ser desta vez...</template>
+          Esta função não foi implementada ainda :(
+        </b-popover>
+        </div>
         </b-col>
       </b-row>
     <b-row>
@@ -75,13 +82,7 @@ export default  Vue.extend({
         resumoProfissional: ""
       }
     }
-  }
-  // beforeCreate(){
-    
-  //   const usuarioId = JSON.parse(localStorage.getItem('user')||"").idUsuario;
-  //   console.log(usuarioId);
-  // }
-  
+  },  
 });
 </script>
 <style  scoped lang="scss">
