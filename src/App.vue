@@ -22,9 +22,11 @@ export default Vue.extend({
   },
   mounted() {
     // eslint-disable-next-line no-constant-condition
-
+    console.log(this.$router.currentRoute);
     if(!this.authenticated && localStorage.getItem("user") == null){
-      this.$router.replace({name: "login"})
+      if(this.$router.currentRoute.name != "cadastro"){
+        this.$router.replace({name: "login"})
+      }
     } else {
       this.authenticated = true;
     }
