@@ -8,7 +8,7 @@
         </b-col>
       </b-row>
     <b-row>
-    <StudentDetail :studentName="student.name" :studentYear="student.year"/>
+    <StudentDetail :studentName="usuarioByIdUsuario.nomeUsuario" :studentYear="usuarioByIdUsuario.dataConclusaoCurso.slice(0, 4)"/>
     </b-row>
     </b-container>
   </div>
@@ -28,12 +28,36 @@ export default  Vue.extend({
     Button,
     StudentDetail,
   },
+  
+  apollo: {
+     usuarioByIdUsuario: {
+      query: gql`
+        query UsuarioByIdUsuario($idDoUsuario: Int!){
+          usuarioByIdUsuario(idUsuario: $idDoUsuario) {
+            dataConclusaoCurso
+            emailUsuario
+            fotoPerfil
+            nomeUsuario
+            resumoProfissional
+          }
+        }
+      `,
+      variables() {
+        return {idDoUsuario: JSON.parse(localStorage.getItem('user')||"").idUsuario,}
+      },
+    },
+  },
   data: function(){
     return{
-      student:{name:"Me", id:1, year:"2020"},
-      
+      usuarioByIdUsuario: [],
     }
   },
+  // beforeCreate(){
+    
+  //   const usuarioId = JSON.parse(localStorage.getItem('user')||"").idUsuario;
+  //   console.log(usuarioId);
+  // }
+  
 });
 </script>
 <style  scoped lang="scss">

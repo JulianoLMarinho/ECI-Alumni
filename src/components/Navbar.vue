@@ -29,7 +29,7 @@ export default Vue.extend({
     logout() {
       this.$emit("authenticated", false);
       localStorage.removeItem("user");
-      this.$router.replace({name: "login"})
+      this.$router.replace({name: "login"});
     }
   }
 });
