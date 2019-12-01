@@ -14,25 +14,23 @@
       <Mural v-for="item in allMurals.nodes" :key="item.idPublicacao" :nomeMural="item.usuarioByIdUsuario.nomeUsuario" :msgMural="item.textoPublicacao" :dataMural="item.dataPublicacao" class="page-mural__user-content"/>
      </b-col>
       </b-row>
-     <b-modal ref="modal-1" id="modal-1" centered title="Nova Publicação">
-
+     <b-modal ref="modal-1" id="modal-1" centered title="Nova Publicação" >
         <b-form-textarea style="margin-top: 10px"
                 id="textarea-rows"
                 placeholder="Digite a sua publicação"
                 rows="8"
-                         v-model="input.textoPublicao"
+                v-model="input.textoPublicao"
         ></b-form-textarea>
         <template v-slot:modal-footer="{ Cancelar, Enviar }">
           <!-- Emulate built in modal footer ok and cancel button actions -->
-          <b-button size="sm" variant="danger" @click="cancel()">
+         <b-button size="sm" variant="danger" @click="cancel()">
             Cancelar
           </b-button>
-          <b-button size="sm" variant="success" @click="novoPost(input.textoPublicao)">
+          <b-button size="sm" variant="success" type="submit" @click="novoPost(input.textoPublicao)">
             Enviar
           </b-button>
         </template>
       </b-modal> 
-    
     </b-container>
   </div>
 </template>
@@ -80,18 +78,20 @@ export default  Vue.extend({
         allMurals: [],
         input: {
             textoPublicao: ""
-        }
+        },
       }
-
   },
-
   methods: {
-      novoPost(textoPublicacao){
-          this.$refs['modal-1'].hide();
-          this.input = "";
+      cancel() {
+        this.$refs['modal-1'].hide();
+      },
+    novoPost(textoPublicacao){
+        this.input = "";
+       // if(textoPublicacao){ 
           let loader = this.$loading.show({color: "#FF8800"});
           let user = JSON.parse(localStorage.getItem('user')||"")
-          console.log(user.idUsuario)
+          console.log(textoPublicacao);
+          this.$refs['modal-1'].hide();
           this.$apollo.mutate({
               mutation: gql`
               mutation createMural($idUsuario: Int!, $textoPublicacao: String){
@@ -114,13 +114,14 @@ export default  Vue.extend({
                   idUsuario: user.idUsuario
               }
           }).then(data => {
-              let mural = data.data.createMural.mural
+              let mural = data.data.createMural.mural;
               loader.hide();
               document.location.reload(true);
           }).catch(erro => {
               loader.hide();
           })
-      }
+        //}
+    }
   }
 });
 

@@ -19,6 +19,7 @@
 import Vue from 'vue';
 import StudentDetail from '@/components/StudentDetailComponent.vue';
 import Navbar from '@/components/Navbar.vue';
+import gql from 'graphql-tag';
 import Button from '@/components/Button.vue';
 export default  Vue.extend({
   name: 'profile',
