@@ -17,13 +17,13 @@
       <b-row>
         <b-col offset="2" md="8" style="text-align: left">
           <div role="tablist">
-            <b-card v-for="group in groups" :key="group.id" no-body class="mb-1">
+            <b-card v-for="group in allGrupoemails.nodes" :key="group.idGrupoEmail" no-body class="mb-1">
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button class="btn-collapse"  block href="#"  v-b-toggle="'accordion-' + group.id" variant="info">{{group.name}} - {{group.inGroup}} participantes</b-button>
+                <b-button class="btn-collapse"  block href="#"  v-b-toggle="'accordion-' + group.idGrupoEmail" variant="info" methods="getUsersInfoGroup(idDoGrupo)">{{group.nomeGrupoEmail}} - {{group.grupoemailusuariosByIdGrupoEmail.totalCount}} participantes </b-button>
               </b-card-header>
-              <b-collapse :id="'accordion-'+ group.id" accordion="my-accordion" role="tabpanel">
+              <b-collapse :id="'accordion-'+ group.idGrupoEmail" accordion="my-accordion" role="tabpanel">
                 <b-card-body>
-                  <b-card-text>Primeiro Nome <br> Outro Nome</b-card-text>
+                  <b-card-text v-for="user in group.grupoemailusuariosByIdGrupoEmail.nodes" :key="user.idUsuario">{{user.usuarioByIdUsuario.nomeUsuario}} <br></b-card-text>
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -31,7 +31,7 @@
         </b-col>
       </b-row>
 
-      <b-modal id="modal-1" centered title="Nova Mensagem">
+      <b-modal ref="modal-1" id="modal-1" centered title="Nova Mensagem">
 
         <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
         <b-form-textarea style="margin-top: 10px"
@@ -57,6 +57,7 @@
 // @ is an alias to /src
 import Vue from 'vue';
 import Navbar from '@/components/Navbar.vue';
+import gql from 'graphql-tag';
 import Button from '@/components/Button.vue';
 
 export default  Vue.extend({
@@ -65,8 +66,29 @@ export default  Vue.extend({
     Navbar,
     Button,
   },
+   apollo: {
+        allGrupoemails: gql`
+        query {
+          allGrupoemails{
+            nodes {
+              idGrupoEmail
+              nomeGrupoEmail
+              grupoemailusuariosByIdGrupoEmail {
+                nodes {
+                  usuarioByIdUsuario {
+                    nomeUsuario
+                  }
+                }
+                totalCount
+              }
+            }
+          }
+        }
+      `,
+    },
   data() {
     return {
+      allGrupoemails:[],
       selected: null,
       options: [
         { value: null, text: 'Selecione o grupo para enviar a mensagem...' },
@@ -74,13 +96,13 @@ export default  Vue.extend({
         { value: 'b', text: 'Nome do Grupo' },
         { value: 'c', text: 'Nome do Grupo' }
       ],
-      groups:[
-        {name:'Group Name 1', id:1, inGroup:12},
-        {name:'Group Name 2', id:2, inGroup:2},
-        {name:'Group Name 3', id:3, inGroup: 5},
-        {name:'Group Name 4', id:4, inGroup:52},
-      ],
     }
+  },
+  methods:{
+    cancel() {
+        this.$refs['modal-1'].hide();
+        this.textoVazio = false;
+      },
   },
 });
 </script>
